@@ -1,0 +1,61 @@
+
+--create database ServiceCentre1
+
+USE	ServiceCentre1 
+GO
+
+create table clients
+(
+id_client int not null IDENTITY(1,1) PRIMARY KEY,
+surname NCHAR(40) not null,
+name NCHAR(40) not null,
+otchestvo NCHAR(40),
+phone int not null
+)
+
+create table pricelist
+(
+id_price int not null IDENTITY(1,1) PRIMARY KEY,
+title_service NCHAR(40) not null unique,
+price NCHAR(20) not null
+)
+
+create table masters
+(
+id_master int not null IDENTITY(1,1) PRIMARY KEY,
+name NCHAR(40) not null,
+phone NCHAR(10) not null
+)
+
+create table priem
+(
+id_priem int not null IDENTITY(1,1) PRIMARY KEY,
+id_client int not null FOREIGN KEY REFERENCES clients(id_client),
+ser_number NCHAR(40) not null FOREIGN KEY REFERENCES devices(ser_number),
+begin_date DATE not null,
+condition NCHAR(100) not null,
+diagnistic_condition NCHAR(100),
+delivery_date DATE,
+garant_repair NCHAR(100) not null
+)
+
+create table devices
+(
+ser_number NCHAR(40) not null PRIMARY KEY,
+device_brand NCHAR(40) not null,
+device_model NCHAR(40) not null,
+update_date DATE not null
+)
+
+create table repairs
+(
+id_repair int not null IDENTITY(1,1) PRIMARY KEY,
+id_master int not null FOREIGN KEY REFERENCES masters (id_master),
+id_device int not null FOREIGN KEY REFERENCES devices (id_device),
+price int not null,
+result NCHAR(100) not null,
+end_date DATE not null,
+id_pricelist int FOREIGN KEY REFERENCES pricelist (id_price)
+)
+
+
